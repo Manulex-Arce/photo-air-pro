@@ -1,3 +1,5 @@
+// URL /exec de tu Google Apps Script. Tu correo personal NO se expone aquí.
+const API_URL = "https://aerea-api.manexarce.workers.dev/";
 
 const form = document.getElementById("contactForm");
 const statusEl = document.getElementById("formStatus");
@@ -22,12 +24,19 @@ form.addEventListener("submit", async (event) => {
   delete data.website;
 
   try {
-    await fetch(APPS_SCRIPT_URL, {
-      method: "POST",
-      mode: "no-cors",
-      headers: {"Content-Type": "text/plain;charset=utf-8"},
-      body: JSON.stringify(data)
-    });
+    const response = await fetch(API_URL, {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json"
+  },
+  body: JSON.stringify(data)
+});
+
+const result = await response.json();
+
+if (!response.ok || !result.ok) {
+  throw new Error(result.error || "No se pudo enviar la solicitud.");
+}
     form.reset();
     statusEl.className = "form-status ok";
     statusEl.textContent = "Solicitud enviada. Gracias; revisaré los detalles y me pondré en contacto contigo.";
