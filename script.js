@@ -1,9 +1,13 @@
-// URL /exec de tu Google Apps Script. Tu correo personal NO se expone aquí.
-const APPS_SCRIPT_URL = "";
 
 const form = document.getElementById("contactForm");
 const statusEl = document.getElementById("formStatus");
 const submitBtn = document.getElementById("submitBtn");
+
+const header = document.querySelector('.site-header');
+
+window.addEventListener('scroll', () => {
+  header.classList.toggle('scrolled', window.scrollY > 40);
+});
 
 form.addEventListener("submit", async (event) => {
   event.preventDefault();
